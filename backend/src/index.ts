@@ -36,11 +36,10 @@ interface User {
 let allSockets:User[] = []
 
 wss.on('connection', (socket)=>{
-    allSockets.push(socket)
     console.log('user connect')
 
     socket.on('message', (message) => { 
-     const parsedMessage = JSON.parse(message);
+     const parsedMessage = JSON.parse(message as any as string);
      if(parsedMessage.type === 'join'){
         allSockets.push({
             socket,
@@ -62,10 +61,6 @@ wss.on('connection', (socket)=>{
         }
         
      }
-    })
-
-    socket.on('disconnect',()=>{
-        allSockets = allSockets.filter(x => x != socket)
     })
 })
 
